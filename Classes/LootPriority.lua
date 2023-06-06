@@ -31,20 +31,19 @@ function LootPriority:getPriority(itemLink, itemName)
         or DB:get("LootPriority", {})[itemName];
 end
 
---- Fetch an item's prio
+--- Check whether a given item link is prioritized
 ---
 ---@param itemLink string
----@param itemName string|nil
----@return string|nil
--- function LootPriority:getPriorityByItemId(itemLink, itemName)
---     GL:debug("LootPriority:getPriorityByItemId");
+---@return boolean
+function LootPriority:isItemLinkPrioritized(itemLink)
+    local itemPriority = self:getPriority(itemLink);
 
---     local itemID = GL:getItemIDFromLink(itemLink);
---     itemName = itemName or GL:getItemNameFromLink(itemLink);
-
---     return DB:get("LootPriority", {})[itemID]
---         or DB:get("LootPriority", {})[itemName];
--- end
+    if (not GL:empty(itemPriority)) then
+        return true;
+    else 
+        return false;
+    end
+end
 
 --- Append the loot prio as defined in DB:get("LootPriority to an item's tooltip
 ---

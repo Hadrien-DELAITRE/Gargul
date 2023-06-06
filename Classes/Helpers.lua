@@ -1379,6 +1379,7 @@ function GL:highlightItem(Item, itemLink)
             not GL.Settings:get("highlightHardReservedItems")
             and not GL.Settings:get("highlightSoftReservedItems")
             and not GL.Settings:get("highlightWishlistedItems")
+            and not GL.Settings.get("highlighLootPriorityItems")
         )
     ) then
         return;
@@ -1445,6 +1446,12 @@ function GL:highlightItem(Item, itemLink)
         ) then
             enableHighlight = true;
         end
+    end
+
+    if (GL.Settings:get("highlighLootPriorityItems")
+        and GL.LootPriority:isItemLinkPrioritized(itemLink)) 
+        then
+            enableHighlight = true;
     end
 
     if (not enableHighlight) then

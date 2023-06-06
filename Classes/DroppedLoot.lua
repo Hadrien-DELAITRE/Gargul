@@ -300,7 +300,7 @@ function DroppedLoot:announce(Modifiers)
             --     The item no longer exists in the loot window
             --     The data is not yet available
             if (not itemLink) then
-                --return;
+                return;
             end
 
             -- Make sure we don't override sourceGUID with false/nil if it was already set!
@@ -338,7 +338,7 @@ function DroppedLoot:announce(Modifiers)
                 and GL:empty(SoftReserves) -- No one (hard)reserved it
                 and GL:empty(TMBInfo) -- No one has it on his wishlist and it's not a prio item
             ) then
-                --return;
+                return;
             end
 
             -- Fetch the applicable SoftRes data (if any)
@@ -387,11 +387,13 @@ function DroppedLoot:announce(Modifiers)
                 );
             end
 
-            -- local itemPriority = GL.LootPriority:getPriority(itemLink);
-            -- GL:sendChatMessage(
-            --     "Priorités : " .. table.concat(itemPriority, " > "),
-            --     "GROUP"
-            -- );
+            local itemPriority = GL.LootPriority:getPriority(itemLink);
+            if (not GL:empty(itemPriority)) then
+                GL:sendChatMessage(
+                    "Priorités : " .. table.concat(itemPriority, " > "),
+                    "RAID_WARNING"
+                );
+            end
 
             -- Fetch the applicable TMB data (if any)
             local ActiveWishListDetails = {};

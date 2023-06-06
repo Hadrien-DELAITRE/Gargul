@@ -45,6 +45,11 @@ function LootHighlighting:draw(Parent)
             description = "Items that have a character (LC) priority are highlighted\n(orange glow)",
             setting = "highlightPriolistedItems",
         },
+        {
+            label = "LootPriority: Highlight priority items",
+            description = "LootPriority are highlighted\n(yellow glow)",
+            setting = "highlighLootPriorityItems",
+        },
     };
 
     Overview:drawCheckboxes(Checkboxes, Parent);
