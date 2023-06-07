@@ -132,7 +132,7 @@ function RollOff:postStartMessage(itemLink, time, note)
     end
 
     local announceMessage = string.format(
-        "You have %s seconds to roll on %s",
+        "Vous avez %s secondes pour roll sur %s",
         time,
         itemLink
     );
@@ -144,7 +144,7 @@ function RollOff:postStartMessage(itemLink, time, note)
         and not GL:empty(note)
     ) then
         announceMessage = string.format(
-            "You have %s seconds to roll on %s - %s",
+            "Vous avez %s secondes pour roll sur %s - %s",
             time,
             itemLink,
             note
@@ -156,7 +156,7 @@ function RollOff:postStartMessage(itemLink, time, note)
         and not GL:empty(Reserves)
     ) then
         Reserves = table.concat(Reserves, ", ");
-        eligiblePlayersMessage = "This item has been reserved by: " .. Reserves;
+        eligiblePlayersMessage = "Cet objet a été reservé par : " .. Reserves;
 
     -- Check if this item is on someone's TMB wish/prio list, if so: mention the player(s) first in line!
     elseif ((GL.Settings:get("TMB.announceWishlistInfoWhenRolling")
@@ -371,7 +371,7 @@ function RollOff:start(CommMessage)
                         SecondsAnnounced[secondsLeft] = true;
 
                         GL:sendChatMessage(
-                            string.format("%s seconds to roll", secondsLeft),
+                            string.format("%s secondes pour roll", secondsLeft),
                             "GROUP"
                         );
 
@@ -440,7 +440,7 @@ function RollOff:stop(CommMessage)
         -- Announce that the roll has ended
         if (GL.Settings:get("MasterLooting.announceRollEnd", true)) then
             GL:sendChatMessage(
-                string.format("Stop your rolls!"),
+                string.format("Arrêtez de roll !"),
                 "RAID_WARNING"
             );
         end

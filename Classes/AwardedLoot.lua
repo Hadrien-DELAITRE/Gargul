@@ -228,19 +228,19 @@ function AwardedLoot:editWinner(checksum, winner, announce)
 
         local awardMessage = "";
         if (GL.BoostedRolls:enabled() and GL:higherThanZero(AwardEntry.BRCost)) then
-            awardMessage = string.format("%s was awarded to %s for %s points. Congrats!",
+            awardMessage = string.format("%s a été gagné par %s pour %s points. Bravo !",
                 AwardEntry.itemLink,
                 winner,
                 AwardEntry.BRCost
             );
         elseif (AwardEntry.GDKPCost and AwardEntry.GDKPCost > 0) then
-            awardMessage = string.format("%s was awarded to %s for %sg. Congrats!",
+            awardMessage = string.format("%s a été gagné par %s pour %sg. Bravo !",
                 AwardEntry.itemLink,
                 winner,
                 AwardEntry.GDKPCost
             );
         else
-            awardMessage = string.format("%s was awarded to %s. Congrats!",
+            awardMessage = string.format("%s a été gagné par %s. Bravo !",
                 AwardEntry.itemLink,
                 winner
             );
@@ -481,19 +481,19 @@ function AwardedLoot:addWinner(winner, itemLink, announce, date, isOS, BRCost, G
     if (announce) then
         local awardMessage = "";
         if (GL.BoostedRolls:enabled() and GL:higherThanZero(BRCost)) then
-            awardMessage = string.format("%s was awarded to %s for %s points. Congrats!",
+            awardMessage = string.format("%s a été gagné par %s pour %s points. Bravo !",
                 itemLink,
                 awardedTo,
                 BRCost
             );
         elseif (GDKPCost and GDKPCost > 0) then
-            awardMessage = string.format("%s was awarded to %s for %sg. Congrats!",
+            awardMessage = string.format("%s a été gagné par %s pour %sg. Bravo !",
                 itemLink,
                 awardedTo,
                 GDKPCost
             );
         else
-            awardMessage = string.format("%s was awarded to %s. Congrats!",
+            awardMessage = string.format("%s a été gagné par %s. Bravo !",
                 itemLink,
                 awardedTo
             );
