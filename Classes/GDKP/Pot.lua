@@ -738,10 +738,10 @@ function Pot:announce(sessionID, callback)
     local managementCut = math.floor(totalPot * (0 + managementCutPercentage / 100));
     local totalToDistribute = math.floor(totalPot - managementCut);
 
-    local message = string.format("Total Pot: %sg", totalToDistribute);
+    local message = string.format("Pot total : %sg", totalToDistribute);
     GL:sendChatMessage(message, "GROUP");
 
-    message = string.format("Base cut: %sg", math.floor(Session.lastAvailableBase));
+    message = string.format("Coupe de base: %sg", math.floor(Session.lastAvailableBase));
     GL:sendChatMessage(message, "GROUP");
 
     ---@todo: polish up the announcement at some point

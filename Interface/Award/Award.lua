@@ -249,7 +249,7 @@ function Award:draw(itemLink, callback)
                             return;
                         end
 
-                        GL:sendChatMessage(string.format("Random winner for %s selected (%s)", itemLink, winner), "GROUP");
+                        GL:sendChatMessage(string.format("Gagnant aléatoire pour %s selectionné (%s)", itemLink, winner), "GROUP");
                         award();
                     end,
                 };

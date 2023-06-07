@@ -1556,7 +1556,7 @@ function Auction:start(CommMessage)
                     end
 
                     GL:sendChatMessage(
-                        string.format("%s seconds to bid", secondsLeft),
+                        string.format("%s secondes pour enchérir !", secondsLeft),
                         chatType,
                         nil,
                         nil,
@@ -1644,7 +1644,7 @@ function Auction:stop(CommMessage)
         -- Announce that the auction has ended
         if (Settings:get("GDKP.announceBidsClosed", true)) then
             GL:sendChatMessage(
-                string.format("Stop your bids!"),
+                string.format("Arrêtez vos enchères !"),
                 "RAID_WARNING"
             );
         end
