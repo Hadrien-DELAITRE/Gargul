@@ -44,6 +44,11 @@ function LootHighlighting:draw(Parent)
             label = "TMB/DFT: Highlight LC items",
             description = "Items that have a character (LC) priority are highlighted\n(orange glow)",
             setting = "highlightPriolistedItems",
+        },        
+        {
+            label = "LootPriority: Highlight priority items",
+            description = "LootPriority are highlighted\n(yellow glow)",
+            setting = "highlighLootPriorityItems",
         },
     };
 
