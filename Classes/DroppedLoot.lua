@@ -302,7 +302,7 @@ function DroppedLoot:announce(Modifiers)
             --     The item no longer exists in the loot window
             --     The data is not yet available
             if (not itemLink) then
-                return;
+                --return;
             end
 
             -- Make sure we don't override sourceGUID with false/nil if it was already set!
@@ -312,7 +312,7 @@ function DroppedLoot:announce(Modifiers)
             if (GL:empty(sourceGUID) -- Make sure we have a sourceGUID
                 or DroppedLoot.Announced[sourceGUID] -- We apparently already announced these items
             ) then
-                return;
+                --return;
             end
 
             local quality = select(5, Functions.GetLootSlotInfo(lootIndex)) or 0;
@@ -325,7 +325,7 @@ function DroppedLoot:announce(Modifiers)
 
             -- Double checking just in case!
             if (not GL:higherThanZero(itemID)) then
-                return;
+                --return;
             end
 
             -- Make sure we're dealing with an actual item here, not currency for example
@@ -384,6 +384,14 @@ function DroppedLoot:announce(Modifiers)
             if (not GL:empty(ActiveSoftResDetails)) then
                 GL:sendChatMessage(
                     "Reservé par : " .. table.concat(ActiveSoftResDetails, ", "),
+                    "GROUP"
+                );
+            end
+
+            local itemPriority = GL.LootPriority:getPriority(itemLink);
+            if (not GL:empty(itemPriority)) then
+                GL:sendChatMessage(
+                    "Priorités : " .. table.concat(itemPriority, " > "),
                     "GROUP"
                 );
             end
