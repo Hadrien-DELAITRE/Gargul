@@ -78,7 +78,7 @@ end
 ---@return void
 function MasterLooterDialog:flightAttendant()
     local function announce()
-        local message = "I'm using Gargul to distribute loot. It makes rolling easier so be sure to try it out!"
+        local message = "J'utilise Gargul pour distribuer les loots. Cela simplifie et automatise grandement la gestion des loots !"
         local stw = not GL:strContains(string.lower(message), "gargul");
 
         GL:sendChatMessage(

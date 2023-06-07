@@ -362,7 +362,7 @@ function DroppedLoot:announce(Modifiers)
                 and GL.Settings:get("SoftRes.announceInfoInChat")
             ) then
                 GL:sendChatMessage(
-                    itemLink .. " (This item is hard-reserved!)",
+                    itemLink .. " (Cet objet est hard-reservé!)",
                     channel
                 );
             else
@@ -380,7 +380,7 @@ function DroppedLoot:announce(Modifiers)
             -- * This data is only available if the user has the announce SoftRes setting enabled
             if (not GL:empty(ActiveSoftResDetails)) then
                 GL:sendChatMessage(
-                    "Reserved by: " .. table.concat(ActiveSoftResDetails, ", "),
+                    "Reservé par : " .. table.concat(ActiveSoftResDetails, ", "),
                     "GROUP"
                 );
             end
@@ -432,7 +432,7 @@ function DroppedLoot:announce(Modifiers)
                 end
 
                 GL:sendChatMessage(
-                    GL.TMB:source() .. " Priority: " .. entryString,
+                    GL.TMB:source() .. " Priorité : " .. entryString,
                     "GROUP"
                 );
             end
@@ -474,7 +474,7 @@ function DroppedLoot:announce(Modifiers)
                 end
 
                 GL:sendChatMessage(
-                    "TMB Wishlist: " .. entryString,
+                    "TMB Wishlist : " .. entryString,
                     "GROUP"
                 );
             end
