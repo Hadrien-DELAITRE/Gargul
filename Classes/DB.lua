@@ -14,6 +14,8 @@ GL.DB = {
         "GDKP",
         "LoadDetails",
         "LootPriority",
+        "LootDescription",
+        "LootValidations",
         "MinimapButton",
         "PlusOnes",
         "RecentlyAwardedItems",

@@ -1581,7 +1581,11 @@ function GL:highlightItem(Item, itemLink, Details)
     end
 
     if (GL.Settings:get("highlighLootPriorityItems")
-        and GL.LootPriority:isItemLinkPrioritized(itemLink)) 
+        and (
+            GL.LootPriority:isItemLinkPrioritized(itemLink)
+            or GL.LootPriority:isItemLinkDescribed(itemLink)
+        )
+    ) 
         then
             enableHighlight = true;
     end
