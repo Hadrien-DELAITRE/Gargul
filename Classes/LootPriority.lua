@@ -16,6 +16,18 @@ GL.LootPriority = {};
 ---@type LootPriority
 local LootPriority = GL.LootPriority;
 
+---@class LootDescription
+GL.LootDescription = {};
+
+---@type LootDescription
+local LootDescription = GL.LootDescription;
+
+---@class LootValidations
+GL.LootValidations = {};
+
+---@type LootValidations
+local LootValidations = GL.LootValidations;
+
 --- Fetch an item's prio
 ---
 ---@param itemLink string
@@ -29,6 +41,36 @@ function LootPriority:getPriority(itemLink, itemName)
 
     return DB:get("LootPriority", {})[itemID]
         or DB:get("LootPriority", {})[itemName];
+end
+
+--- Fetch an item's description
+---
+---@param itemLink string
+---@param itemName string|nil
+---@return string|nil
+function LootPriority:getDescription(itemLink, itemName)
+    GL:debug("LootPriority:getDescription");
+
+    local itemID = GL:getItemIDFromLink(itemLink);
+    itemName = itemName or GL:getItemNameFromLink(itemLink);
+
+    return DB:get("LootDescription", {})[itemID]
+        or DB:get("LootDescription", {})[itemName];
+end
+
+--- Fetch an item's validations
+---
+---@param itemLink string
+---@param itemName string|nil
+---@return string|nil
+function LootPriority:getValidations(itemLink, itemName)
+    GL:debug("LootPriority:getValidations");
+
+    local itemID = GL:getItemIDFromLink(itemLink);
+    itemName = itemName or GL:getItemNameFromLink(itemLink);
+
+    return DB:get("LootValidations", {})[itemID]
+        or DB:get("LootValidations", {})[itemName];
 end
 
 --- Check whether a given item link is prioritized
@@ -45,6 +87,20 @@ function LootPriority:isItemLinkPrioritized(itemLink)
     end
 end
 
+--- Check whether a given item link is described
+---
+---@param itemLink string
+---@return boolean
+function LootPriority:isItemLinkDescribed(itemLink)
+    local itemDescription = self:getDescription(itemLink);
+
+    if (not GL:empty(itemDescription)) then
+        return true;
+    else 
+        return false;
+    end
+end
+
 --- Append the loot prio as defined in DB:get("LootPriority to an item's tooltip
 ---
 ---@param itemLink string
@@ -53,18 +109,30 @@ function LootPriority:tooltipLines(itemLink)
     GL:debug("LootPriority:appendLootPrioToTooltip");
 
     local itemPriority = self:getPriority(itemLink, itemName);
+    local itemDescription = self:getDescription(itemLink, itemName);
+    local itemValidations = self:getValidations(itemLink, itemName);
 
     -- No prio defined for this item
-    if (not itemPriority) then
+    if (not itemPriority and not itemDescription) then
         return {};
     end
 
     -- Add the header
-    local Lines = { (string.format("\n|c00efb8cd%s", "Loot Prio")) };
+    local Lines = { (string.format("\n\n |c00efb8cd%s", "Loot Prio")) };
 
     -- Add the actual item prio
     for priorityLevel, value in pairs(itemPriority) do
-        tinsert(Lines, string.format("|c008aecff    %s: %s", priorityLevel, value));
+        tinsert(Lines, string.format("|c008aecff    %s : %s", priorityLevel, value));
+    end
+
+    if (itemDescription == '' or itemDescription == nil) then
+    else
+        tinsert(Lines, string.format("\n|c00FFFFFF    Description : %s", itemDescription));
+    end
+
+    if (itemValidations == '' or itemValidations == nil) then
+    else
+        tinsert(Lines, string.format("|c007CEA9C    Validations : %s", itemValidations));
     end
 
     return Lines;
@@ -146,6 +214,14 @@ function LootPriority:toCSV()
             priorityString = string.format("%s > %s", priorityString, priority[index]);
         end
 
+        if (DB:get("LootDescription", {})[item]) then
+            priorityString = string.format("%s ; %s", priorityString, DB:get("LootDescription", {})[item]);
+        end
+    
+        if (DB:get("LootValidations", {})[item]) then
+            priorityString = string.format("%s ; %s", priorityString, DB:get("LootValidations", {})[item]);
+        end
+
         LootPriorityCSV = string.format("%s%s %s\n", LootPriorityCSV, item, priorityString);
     end
 
@@ -170,12 +246,19 @@ function LootPriority:save(data)
     if (GL:empty(data)) then
         GL:success("Loot priorities cleared successfully");
         DB:set("LootPriority", {});
+        DB:set("LootDescription", {});
+        DB:set("LootValidations", {});
         return;
     end
 
     local LootPriorityData = {};
+    local LootDescriptionData = {};
+    local LootValidationsData = {};
     for line in data:gmatch("[^\n]+") do
-        local segments = GL:strSplit(line, ">");
+        local priorities = GL:strSplit(line, ";");
+        local segments = GL:strSplit(priorities[1], ">");
+        local description = priorities[2];
+        local validations = priorities[3];
         local segmentCount = #segments;
 
         if (segmentCount < 2) then
@@ -189,15 +272,23 @@ function LootPriority:save(data)
         end
 
         LootPriorityData[key] = {};
+        LootDescriptionData[key] = {};
+        LootValidationsData[key] = {};
 
         for segment = 2, segmentCount do
             local priority = strtrim(segments[segment]);
 
             tinsert(LootPriorityData[key], priority);
         end
+
+        LootDescriptionData[key] = description;
+        LootValidationsData[key] = validations;
+
     end
 
     DB:set("LootPriority", LootPriorityData);
+    DB:set("LootDescription", LootDescriptionData);
+    DB:set("LootValidations", LootValidationsData);
 
     GL:success("Loot priorities imported successfully");
 end
